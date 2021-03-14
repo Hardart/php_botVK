@@ -23,4 +23,3 @@ define('_ok', "👌🏼");
 define('_strength', "💪🏼");
 define('_moneyBag', "💰");
 define('_brickSign', "⛔️");
-

@@ -8,9 +8,8 @@ require_once BASE_DIR . '/parcer/SimpleXLSX.php';
 
 $file_name = "accounts.xlsx";
 $endpoint = "reg_data/" . $file_name;
-// $upload_file = $_FILES['sheet']['tmp_name'];
-if($_FILES){
-    move_uploaded_file($_FILES['sheet']['tmp_name'], $endpoint);
+if ($_FILES) {
+	move_uploaded_file($_FILES['sheet']['tmp_name'], $endpoint);
 }
 if ($xlsx = SimpleXLSX::parse('reg_data/' . $file_name)) {
 	$sheet = $xlsx->rows();
@@ -40,8 +39,7 @@ while ($data = $stmt->fetch()) {
 $data = file_get_contents('php://input');
 $pdvn = json_decode($data, true);
 if ($pdvn || $_FILES) {
-    echo json_encode($result, JSON_UNESCAPED_UNICODE);
+	echo json_encode($result, JSON_UNESCAPED_UNICODE);
 } else {
-    header('Location: index.php');
+	header('Location: index.php');
 }
-

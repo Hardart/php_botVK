@@ -24,6 +24,7 @@ function sendRequest(method, url, body) {
 		return data.json()
 	})
 }
+
 file.onclick = () => file.setAttribute('accept', '.xlsx')
 
 file.onchange = () => {
