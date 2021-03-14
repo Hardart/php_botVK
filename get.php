@@ -69,7 +69,7 @@ if ($username) { // переменная логин студента в POST з�
 				if (!$photo[0]) { //если массив пуст, заполняем его снова фотками
 					$photo = photo_array();
 				}
-				$img = '../feil/' . $photo[0];
+				$img = 'img/fail/' . $photo[0];
 				$attach = uploadPhoto($student_vk_id, $img); //прикрепляем фото
 				$mess = $easy_fail[rand(0, 2)];
 				sendMessage($student_vk_id, $mess, $attach, keyboard($menuBtns));

@@ -24,7 +24,7 @@ function gen_password($length = 6)
 
 function photo_array()
 {
-	$path = scandir("../feil");
+	$path = scandir("img/fail");
 	$images = array();
 	foreach ($path as $i) {
 		array_push($images, $i);
