@@ -33,7 +33,6 @@
 				$stmt = select_FROM_WHERE($dbh, 'coaches', 'vk_id', $user_id);
 				$coach = $stmt->fetch();
 				if ($coach) { // ветка тренера
-					$kbd = keyboard($students);
 					if (!$user_pay) {
 						switch ($user_msg) {
 							case 'меню':
@@ -45,102 +44,101 @@
 								$kbd = keyboard($emptyKbd);
 								break;
 						}
-					}
-					switch ($user_pay->payload) {
-						case 'Yes':
-							$msg = 'Список очищен!';
-							delete_FROM($dbh, STUDENTS, 'coach', $coach['id']);
-							$stmt = select_FROM_WHERE($dbh, 'bonus_points', 'coach_id', $coach['id']);
-							$bonus_points = $stmt->fetch();
-							if ($bonus_points) {
-								delete_FROM($dbh, 'bonus_points', 'coach_id', $coach['id']);
-								$msg .= "\nБонусные коды очищены";
-							}
-
-							$file = BASE_DIR . '/tests/' . $coach['name'] . '.json';
-							if (file_exists($file)) {
-								unlink($file);
-							}
-							break;
-						case 'No':
-							$msg = 'Выберите действие';
-							break;
-						case 'coach':
-							$stmt = select_FROM_WHERE2($dbh, STUDENTS, 'ready', true, 'coach', $coach['id']);
-							while ($user = $stmt->fetch()) {
-								update_FROM_WHERE($dbh, STUDENTS, 'ren_login', $user['ren_login'], 'ready', 0);
-								update_FROM_WHERE($dbh, STUDENTS, 'ren_login', $user['ren_login'], 'coach', $user_pay->coach_id);
-								$ren_login = $user['ren_login'];
-							}
-							$query = select_FROM_WHERE($dbh, 'coaches', 'id', $user_pay->coach_id);
-							$new_coach = $query->fetch();
-							change_coach($coach['name'], $new_coach['name'], $ren_login);
-							$msg = "Готово";
-							break;
-					}
-					switch ($user_pay) {
-						case 'new_pass':
-							$msg = gen_password();
-							$kbd = keyboard($students);
-							$sql = 'INSERT INTO bonus_points(code, coach_id) values(?,?)';
-							$dbh->prepare($sql)->execute([$msg, $coach['id']]);
-							break;
-						case 'Delete':
-							$msg = 'Вы уверены?';
-							$kbd = keyboard($confirmBtns);
-							break;
-						case 'Send':
-							$stmt = select_FROM_WHERE_with_ORDER($dbh, STUDENTS, 'coach', $coach['id'], 'ren_login');
-							$top_line = "-------------------------------\n";
-							$bottom_line = "\n-------------------------------\n";
-							$users = [];
-							$i = 0;
-							while ($user = $stmt->fetch()) {
-								$names .= $user['full_name'] . ' - ' . $user['ren_login'] . $bottom_line;
-								$btn_text = preg_replace('/[^\d]/', '', $user['ren_login']);
-								array_push($users, button($btn_text, 'student', 'primary'));
-								$i++;
-							}
-							$msg = "КОГО НЕОБХОДИМО ПЕРЕМЕСТИТЬ?\n";
-							$msg .= $top_line . $names;
-
-
-							$col = 2;
-							if ($i % 4 == 0) {
-								$col = 4;
-							} elseif ($i % 3 == 0 && $i > 8) {
-								$col = 3;
-							} elseif ($i > 10) {
-								$col = 3;
-							}
-							$padavans = new_keyboard($users, $col);
-							$kbd = keyboard($padavans);
-							if (!$names) {
-								$msg = "Перемещать некого";
+					} else {
+						switch ($user_pay->payload) {
+							case 'Yes':
+								$msg = 'Список очищен!';
+								delete_FROM($dbh, STUDENTS, 'coach', $coach['id']);
+								$stmt = select_FROM_WHERE($dbh, 'bonus_points', 'coach_id', $coach['id']);
+								$bonus_points = $stmt->fetch();
+								if ($bonus_points) {
+									delete_FROM($dbh, 'bonus_points', 'coach_id', $coach['id']);
+									$msg .= "\nБонусные коды очищены";
+								}
+								$file = BASE_DIR . '/tests/' . $coach['name'] . '.json';
+								if (file_exists($file)) {
+									unlink($file);
+								}
+								break;
+							case 'No':
+								$msg = 'Выберите действие';
+								break;
+							case 'coach':
+								$stmt = select_FROM_WHERE2($dbh, STUDENTS, 'ready', true, 'coach', $coach['id']);
+								while ($user = $stmt->fetch()) {
+									update_FROM_WHERE($dbh, STUDENTS, 'ren_login', $user['ren_login'], 'ready', 0);
+									update_FROM_WHERE($dbh, STUDENTS, 'ren_login', $user['ren_login'], 'coach', $user_pay->coach_id);
+									$ren_login = $user['ren_login'];
+								}
+								$query = select_FROM_WHERE($dbh, 'coaches', 'id', $user_pay->coach_id);
+								$new_coach = $query->fetch();
+								change_coach($coach['name'], $new_coach['name'], $ren_login);
+								$msg = "Готово";
+								break;
+						}
+						$kbd = keyboard($students);
+						switch ($user_pay) {
+							case 'new_pass':
+								$msg = gen_password();
 								$kbd = keyboard($students);
-							}
-							break;
-						case 'student':
-							$msg = 'какому тренеру отправить?';
-							update_FROM_WHERE($dbh, STUDENTS, 'ren_login', "train_CCuser" . $user_msg, 'ready', true);
-							$kbd = keyboard($coaches);
-							break;
-						case 'standings':
-							$stmt = select_FROM_WHERE_with_ORDER($dbh, STUDENTS, 'coach', $coach['id'], 'test_points', 'DESC');
-							$top_line = "-------------------------------\n";
-							$bottom_line = "\n-------------------------------\n";
-							$i = 1;
-							while ($user = $stmt->fetch()) {
-								$points = $user['test_points'];
-								$names .= $i . " - " . $user['full_name'] . ' - ' . $points . endings($points, [' балл', ' балла', ' баллов']) . $bottom_line;
-								$i++;
-							}
-							$msg = $top_line . $names;
-							if (!$names) {
-								$msg = "В таблице пусто";
-							}
-							$kbd = keyboard($students);
-							break;
+								$sql = 'INSERT INTO bonus_points(code, coach_id) values(?,?)';
+								$dbh->prepare($sql)->execute([$msg, $coach['id']]);
+								break;
+							case 'Delete':
+								$msg = 'Вы уверены?';
+								$kbd = keyboard($confirmBtns);
+								break;
+							case 'Send':
+								$stmt = select_FROM_WHERE_with_ORDER($dbh, STUDENTS, 'coach', $coach['id'], 'ren_login');
+								$top_line = "-------------------------------\n";
+								$bottom_line = "\n-------------------------------\n";
+								$users = [];
+								$i = 0;
+								while ($user = $stmt->fetch()) {
+									$names .= $user['full_name'] . ' - ' . $user['ren_login'] . $bottom_line;
+									$btn_text = preg_replace('/[^\d]/', '', $user['ren_login']);
+									array_push($users, button($btn_text, 'student', 'primary'));
+									$i++;
+								}
+								$msg = "КОГО НЕОБХОДИМО ПЕРЕМЕСТИТЬ?\n";
+								$msg .= $top_line . $names;
+								$col = 2;
+								if ($i % 4 == 0) {
+									$col = 4;
+								} elseif ($i % 3 == 0 && $i > 8) {
+									$col = 3;
+								} elseif ($i > 10) {
+									$col = 3;
+								}
+								$padavans = new_keyboard($users, $col);
+								$kbd = keyboard($padavans);
+								if (!$names) {
+									$msg = "Перемещать некого";
+									$kbd = keyboard($students);
+								}
+								break;
+							case 'student':
+								$msg = 'какому тренеру отправить?';
+								update_FROM_WHERE($dbh, STUDENTS, 'ren_login', "train_CCuser" . $user_msg, 'ready', true);
+								$kbd = keyboard($coaches);
+								break;
+							case 'standings':
+								$stmt = select_FROM_WHERE_with_ORDER($dbh, STUDENTS, 'coach', $coach['id'], 'test_points', 'DESC');
+								$top_line = "-------------------------------\n";
+								$bottom_line = "\n-------------------------------\n";
+								$i = 1;
+								while ($user = $stmt->fetch()) {
+									$points = $user['test_points'];
+									$names .= $i . " - " . $user['full_name'] . ' - ' . $points . endings($points, [' балл', ' балла', ' баллов']) . $bottom_line;
+									$i++;
+								}
+								$msg = $top_line . $names;
+								if (!$names) {
+									$msg = "В таблице пусто";
+								}
+								$kbd = keyboard($students);
+								break;
+						}
 					}
 					sendMessage($user_id, $msg, NULL, $kbd);
 				} else { // ветка студента
