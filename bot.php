@@ -33,6 +33,7 @@
 				$stmt = select_FROM_WHERE($dbh, 'coaches', 'vk_id', $user_id);
 				$coach = $stmt->fetch();
 				if ($coach) { // ветка тренера
+					$kbd = keyboard($students);
 					if (!$user_pay) {
 						switch ($user_msg) {
 							case 'меню':
@@ -77,7 +78,6 @@
 							$msg = "Готово";
 							break;
 					}
-					$kbd = keyboard($students);
 					switch ($user_pay) {
 						case 'new_pass':
 							$msg = gen_password();
