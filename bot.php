@@ -152,7 +152,7 @@
 									update_FROM_WHERE($dbh, STUDENTS, 'vk_id', $user_id, 'coach', $user_pay->coach_id);
 									$query = select_FROM_WHERE($dbh, 'coaches', 'id', $user_pay->coach_id);
 									$coach = $query->fetch();
-									$msg = 'Теперь ' . $coach['name'] . ' ваш командир';
+									$msg = 'Теперь ' . $coach['name'] . ' твой тренер';
 									sendMessage($user_id, $msg, NULL, keyboard($emptyKbd));
 									$msg = 'Вы уверены в своем выборе?';
 									$kbd = keyboard($confirmBtns);
@@ -259,7 +259,7 @@
 								$sql = 'INSERT INTO padavans(vk_id, full_name, ren_login, ren_pass, welcome_code) values(?, ?, ?, ?, ?)';
 								$query = $dbh->prepare($sql);
 								$query->execute([$user_id, $user_lastname . ' ' . $user_name, $ren_login, $ren_pass, $wel_code]);
-								$msg = "Дорогой друг, мы рады приветствовать тебя на дистанционно-очном Базовом обучении по Продажам." . _flyMoney . "\n\nМеня зовут Робби" . _robo . ". Я буду тебя сопровождать на протяжении всего космического путешествия по обучению.\n\nУточни, пожалуйста, кто твой командир шатла?" . _rocket;
+								$msg = "Дорогой друг, мы рады приветствовать тебя на дистанционно-очном Базовом обучении по Продажам." . _flyMoney . "\n\nМеня зовут Робби" . _robo . ". Я буду тебя сопровождать на протяжении всего космического путешествия по обучению.\n\nУточни, пожалуйста, кто твой тренер?" . _rocket;
 								$kbd = keyboard($coaches);
 							} else {
 								$msg = "Тревога!!!" . _brickSign . " Этот код уже есть в базе!\nСообщи о проблеме в общий чат";
