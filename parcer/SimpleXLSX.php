@@ -1,8 +1,8 @@
 <?php
 
 /**
- * SimpleXLSX php class v0.8.15
- * MS Excel 2007 workbooks reader
+					 * SimpleXLSX php class v0.8.15
+					 * MS Excel 2007 workbooks reader
  *
  * Copyright (c) 2012 - 2020 SimpleXLSX
  *
