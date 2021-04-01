@@ -152,7 +152,7 @@
 									update_FROM_WHERE($dbh, STUDENTS, 'vk_id', $user_id, 'coach', $user_pay->coach_id);
 									$query = select_FROM_WHERE($dbh, 'coaches', 'id', $user_pay->coach_id);
 									$coach = $query->fetch();
-									$msg = 'Теперь ' . $coach['name'] . ' ваш командир';
+									$msg = 'Теперь ' . $coach['name'] . ' твой тренер';
 									sendMessage($user_id, $msg, NULL, keyboard($emptyKbd));
 									$msg = 'Вы уверены в своем выборе?';
 									$kbd = keyboard($confirmBtns);
@@ -166,7 +166,7 @@
 										'message_ids'	=> [$user_msg_id]
 									];
 									$msg = "У тебя в команде пополнение\nСсылка на диалог: https://vk.com/gim" . $group_id . "?sel=" . $user_id;
-									messageReply($coach['vk_id'], $msg, $fwd, keyboard($emptyKbd));
+									messageReply($coach['vk_id'], $msg, $fwd, keyboard($students));
 
 									$msg = "Отлично!\n\nВ процессе тебе предстоит пролететь на ракете " . _three . " планеты:\n\n" . _one . " планета - ПРОДУКТЫ. Здесь ты узнаешь те продукты, которые продаются в нашем космическом пространстве и их основные параметры.\n" . _two . " планета - КОММУНИКАТИВ. На этой горячей планете тебя ждут основы общения с клиентом и то, что нужно использовать для наиболее эффективной продажи.\n" . _three . " планета - ПРОГРАММЫ. В гостях у этой планеты ты узнаешь на какую кнопку нужно нажать, чтобы узнать решение банка и записать клиента в офис.\n\nКак твой настрой?\nГотов к незабываемым приключениям?";
 									$kbd = keyboard($welcomeBtns);
