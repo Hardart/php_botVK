@@ -112,8 +112,13 @@ if ($username) { // переменная логин студента в POST з�
 			sendMessage($student_vk_id, $mess, NULL, keyboard($menuBtns));
 			if ($bonus == 3 && !$test_complite) { // если тест EASY пройден в первый раз через 5мин отправляем картинки
 				sleep(300);
+				$test_1 = "ИТ Продукты 1.3";
+				$test_2 = "ИТ Минимальные требования 2.3";
+				$test_3 = "ИТ Программы 3.4";
+				$test_4 = "ИТ Программа МСО 4.6";
+				$test_5 = "ИТ Дополнительные процедуры 5.5";
 				switch ($quiz_title) {
-					case 'ИТ Продукты 1.3 (OUT)':
+					case stripos($quiz_title, $test_1):
 						$img_1 = BASE_DIR . '/img/scale/scale_1.JPG';
 						$img_2 = BASE_DIR . '/img/resume/res_1.JPG';
 						$photo_1 = uploadPhoto($user_id, $img_1);
@@ -123,7 +128,7 @@ if ($username) { // переменная логин студента в POST з�
 						sendMessage($student_vk_id, $mess, $photo_1, keyboard($menuBtns));
 						sendMessage($student_vk_id, "", $photo_2, keyboard($menuBtns));
 						break;
-					case 'ИТ Минимальные требования 2.3 (OUT)':
+					case stripos($quiz_title, $test_2):
 						$img_1 = BASE_DIR . '/img/scale/scale_2.JPG';
 						$img_2 = BASE_DIR . '/img/resume/res_2.JPG';
 						$photo_1 = uploadPhoto($user_id, $img_1);
@@ -133,7 +138,7 @@ if ($username) { // переменная логин студента в POST з�
 						sendMessage($student_vk_id, $mess, $photo_1, keyboard($menuBtns));
 						sendMessage($student_vk_id, "", $photo_2, keyboard($menuBtns));
 						break;
-					case 'ИТ Программы 3.4 (OUT)':
+					case stripos($quiz_title, $test_3):
 						$img_1 = BASE_DIR . '/img/scale/scale_4.JPG';
 						$img_2 = BASE_DIR . '/img/resume/res_3.1.JPG';
 						$img_3 = BASE_DIR . '/img/resume/res_3.2.JPG';
@@ -146,7 +151,7 @@ if ($username) { // переменная логин студента в POST з�
 						sendMessage($student_vk_id, "", $photo_2, keyboard($menuBtns));
 						sendMessage($student_vk_id, "", $photo_3, keyboard($menuBtns));
 						break;
-					case 'ИТ Программа МСО 4.6 (OUT)':
+					case stripos($quiz_title, $test_4):
 						$img_1 = BASE_DIR . '/img/scale/scale_5.JPG';
 						$img_2 = BASE_DIR . '/img/resume/res_4.1.JPG';
 						$img_3 = BASE_DIR . '/img/resume/res_4.2.JPG';
@@ -158,7 +163,7 @@ if ($username) { // переменная логин студента в POST з�
 						sendMessage($student_vk_id, "", $photo_2, keyboard($menuBtns));
 						sendMessage($student_vk_id, "", $photo_3, keyboard($menuBtns));
 						break;
-					case 'ИТ Дополнительные процедуры 5.5 (OUT)':
+					case stripos($quiz_title, $test_5):
 						$img_1 = BASE_DIR . '/img/scale/scale_6.JPG';
 						$img_2 = BASE_DIR . '/img/resume/res_5.1.JPG';
 						$img_3 = BASE_DIR . '/img/resume/res_5.2.JPG';
