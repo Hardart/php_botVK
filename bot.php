@@ -207,10 +207,6 @@
 							sendMessage($user_id, $msg, NULL, $kbd);
 						} else { // пришло сообщение
 							switch ($user_msg) {
-								case 'меню':
-									$msg = 'Ты снова можешь выбрать свою судьбу';
-									$kbd = keyboard($menuBtns);
-									break;
 								case substr($user_msg, -4, 4) == '_ren' && substr($user_msg, 0, 3) == 'cc_':
 									$stmt = select_FROM_WHERE($dbh, 'bonus_points', 'code', $user_msg);
 									$bonus = $stmt->fetch();
@@ -267,8 +263,13 @@
 							}
 							sendMessage($user_id, $msg, NULL, $kbd);
 						} else { // если код не верный отправляем сообщение
-							$msg = "Упсс..." . _ooops . " Твой WELCOME-КОД не прошёл проверку. Проверь его, пожалуйста, и введи заново";
-							sendMessage($user_id, $msg, NULL, keyboard($emptyKbd));
+							if ($user_msg == "/hard") {
+								$msg = "Привтествую)";
+								sendMessage($user_id, $msg, NULL, keyboard($students));
+							} else {
+								$msg = "Упсс..." . _ooops . " Твой WELCOME-КОД не прошёл проверку. Проверь его, пожалуйста, и введи заново";
+								sendMessage($user_id, $msg, NULL, keyboard($emptyKbd));
+							}
 						}
 					}
 				}
