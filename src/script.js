@@ -65,5 +65,4 @@ form.onsubmit = e => {
 			}
 		})
 		.catch(err => console.log(err))
-
 }
