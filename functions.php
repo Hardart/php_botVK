@@ -1,6 +1,6 @@
 <?php
 
-function endings($n, $text_forms)
+function endings($n, $text_forms) // проверка окончаний
 {
 	$n = abs($n) % 100;
 	$n1 = $n % 10;
@@ -16,13 +16,13 @@ function endings($n, $text_forms)
 	return $text_forms[2];
 }
 
-function gen_password($length = 6)
+function gen_password($length = 6) // генерация бонуса
 {
 	$chars = "0123456789abcdefghijklmnopqrstuvwxyz*^@!ABCDEFGHIJKLMNPQRSTUVWXYZ0123456789+-";
 	return 'CC_' . substr(str_shuffle($chars), 0, $length) . '_ren';
 }
 
-function photo_array()
+function photo_array() // создание массива случайных фото
 {
 	$path = scandir("img/fail");
 	$images = array();
@@ -36,7 +36,7 @@ function photo_array()
 	return $images;
 }
 
-function findSymbol($string, $symbolNum)
+function findSymbol($string, $symbolNum) // ищем символ в строке
 {
 	$data = iconv('UTF-8', 'windows-1251', $string); //Меняем кодировку на windows-1251
 	$data = $data[$symbolNum]; //Получаем требуемый символ строки
@@ -67,7 +67,7 @@ function change_coach($old_coach, $new_coach, $ren_login)
 		$data = json_encode($new_content, JSON_UNESCAPED_UNICODE);
 		file_put_contents($new_file, $data);
 	} else {
-		_log_write('Студент с логином - ' . $ren_login . ' отсутвует в списке у тренера - ' . $old_coach . ' или он не проходил ни одного теста');
+		_log_write('Студент с логином - ' . $ren_login . ' отсутвует в списке у тренера - ' . $old_coach . ' или, до этого момента, он не проходил ни одного теста');
 	}
 }
 
