@@ -1,6 +1,9 @@
 const form = document.querySelector('form')
+const loginForm = document.querySelector('form.login')
 const submit = document.querySelector('form button')
 const file = document.querySelector('#file')
+const login = document.querySelector('#login')
+const pass = document.querySelector('#pass')
 const btn = document.querySelector('.upload_again')
 const upload = document.querySelector('.file_upload')
 const table = document.querySelector('table')
@@ -65,4 +68,13 @@ form.onsubmit = e => {
 			}
 		})
 		.catch(err => console.log(err))
+}
+
+loginForm.onsubmit = e => {
+	refLogin = "Ren"
+	refPass = "aaa"
+	if (login.value == refLogin && pass.value == refPass) {
+	} else {
+		e.preventDefault()
+	}
 }
